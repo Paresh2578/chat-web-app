@@ -1,0 +1,1 @@
+export * as msg_user_info from './action/index'
