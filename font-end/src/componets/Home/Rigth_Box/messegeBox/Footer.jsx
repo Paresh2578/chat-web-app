@@ -32,7 +32,6 @@ const Main_Box = styled(Box)(({theme})=>({
  borderRadius:'20px',
 
   "@media (max-width : 1400px)" : {
-      // bottom : '10px',
       marginLeft : '30px',
   },
   "@media (max-width : 950px)" : {
@@ -104,7 +103,6 @@ export default function Footer({msg_user_informaton , get_conversation,conversat
  //handle onchange input
  const handle_onchangeInput = (e)=>{
    setText(e.target.value)
-   console.log();
    e.target.value.length != 0 ? setSendIcon(true) : setSendIcon(false);
  }
     
@@ -201,7 +199,6 @@ export default function Footer({msg_user_informaton , get_conversation,conversat
   const sendFile = (e)=>{
     setText(e.target.files[0].name)
     setFile(e.target.files[0])
-    console.log(e.target.files[0])
   }
 
 

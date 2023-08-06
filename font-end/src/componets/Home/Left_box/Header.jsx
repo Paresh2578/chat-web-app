@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useState} from 'react'
 
 //redux
 import {useSelector} from 'react-redux'
@@ -9,7 +9,6 @@ import Profile from './Profile';
 
 //mui
 import {Box , IconButton, styled} from '@mui/material'
-import MessageIcon from '@mui/icons-material/Message';
 
 //css
 const Main_Box = styled(Box)(({theme})=>({
@@ -28,17 +27,14 @@ const Other_option = styled(Box)(({theme})=>({
 
 export default function Header() {
 
+  const [open , setOpen] = useState(false);
+
   return (
     <Main_Box>
-       <Profile/>
+       <Profile open = {open} setOpen={setOpen}/>
        <Other_option>
            <Box>
-              <IconButton >
-                 <MessageIcon/>
-              </IconButton>
-           </Box>
-           <Box>
-               <Menubar/>
+               <Menubar setOpen={setOpen}/>
            </Box>
        </Other_option>
     </Main_Box>

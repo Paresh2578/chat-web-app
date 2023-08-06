@@ -8,7 +8,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 
-export default function Menubar() {
+export default function Menubar({setOpen}) {
    //navigate
    const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ export default function Menubar() {
             horizontal:'rigth'
         }}
       >
-        <MenuItem onClick={()=>{handleClose()}}>Profile</MenuItem>
+        <MenuItem onClick={()=>{handleClose(); setOpen(true)}}>Profile</MenuItem>
         <MenuItem onClick={handle_LogOut}>Logout</MenuItem>
       </Menu>
     </>

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+//URL
+import {URL} from '../../URL'
+
 //componets
 import Header from './Header'
 import Search_bar from './Search_bar'
@@ -19,7 +22,7 @@ import { Box , Divider, styled} from '@mui/material'
 const Main_Box = styled(Box)(({theme})=>({
     background:'#ffff',
     heigth:'200vh',
-    overflowY:'scroll'
+    overflowY:'scroll',
 }))
 
 export default function Left_box() {
@@ -36,7 +39,7 @@ export default function Left_box() {
    useEffect(()=>{
        const get_last_msg = async()=>{
           try{
-            let result = await fetch('http://localhost:4000/convarsation/get_all_convarsation');
+            let result = await fetch(`${URL}/convarsation/get_all_convarsation`);
             result = await result.json();
             Last_msg_convarsatio(result)
         }catch(error){

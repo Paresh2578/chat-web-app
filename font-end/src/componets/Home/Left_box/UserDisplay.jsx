@@ -27,7 +27,11 @@ const Main_box = styled(List)(({theme})=>({
 }))
 
 const Imgs = styled('img')({
-    width : '60px'
+    width : '50px',
+    margin:' 0 10px',
+    // borderRedius:'50%',
+    objectFit:'cover',
+    borderRadius : '50%'
 })
 
 
@@ -65,7 +69,7 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
    useEffect(()=>{
       const getUser = async ()=>{
         try{
-          let result = await fetch(`http://localhost:4000/get_AllUser`)
+          let result = await fetch(`${URL}/get_AllUser`)
           result =await result.json();
           result = result.filter(user => user.username.toLowerCase().includes(text.toLowerCase()))
           setUser(result);
@@ -102,7 +106,6 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
         console.log("convarstion api erroe : " + error)
       }
 
-      console.log()
 
       //set userlist displye with and messge box width
        setUser_disply_box_width('none');

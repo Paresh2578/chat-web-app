@@ -57,17 +57,14 @@ const Login = ()=>{
                 if(clickCount > 0){
                     //call api
                    try{
-                        // let result = await fetch(`${URL}/login/${email}/${password}`)
-                        let result = await fetch(`http://localhost:4000/login/${email}/${password}`)
+                        let result = await fetch(`${URL}/login/${email}/${password}`)
                         result = await result.json();
                     
                     if(Object.keys(result).length !== 0){
                         localStorage.setItem('userData' , JSON.stringify(result[0]));
                         setChackUser(false);
                         navigate('/Home')
-                        // localStorage.setItem('Msg', "succesfully login")
                     }else{
-                        console.log("not valid")
                         setChackUser(true);
                     }
                    }catch(error){
@@ -112,7 +109,6 @@ const Login = ()=>{
                 </form>
             </div>
             </div>
-           {/* <ActionAlerts mas/> */}
         </>
     )
 }

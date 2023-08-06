@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom'
 import { URL } from '../../URL';
 
 
-
 //mui
 import { Typography , styled  ,Alert} from '@mui/material';
 
@@ -73,13 +72,12 @@ const  Forget_password = ()=>{
                 //user email chack
                 try{
                     // let UserFind_result = await fetch(`${URL}/userFind/${email}`);
-                    let UserFind_result = await fetch(`http://localhost:4000/userFind/${email}`);
+                    let UserFind_result = await fetch(`${URL}/userFind/${email}`);
                     UserFind_result = await UserFind_result.json();
                     if(Object.keys(UserFind_result).length > 0){
                         
                         //password update
-                        // let passWordUpdate_result = await fetch(`${URL}/forgerPassword/${email}`,{
-                        let passWordUpdate_result = await fetch(`http://localhost:4000/forgerPassword/${email}`,{
+                        let passWordUpdate_result = await fetch(`${URL}/forgerPassword/${email}`,{
                             method : "put",
                             body : JSON.stringify({password}),
                             headers : {

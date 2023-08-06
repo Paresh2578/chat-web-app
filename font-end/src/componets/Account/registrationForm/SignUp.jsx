@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+    import React, { useState } from 'react'
 import {Link , useNavigate} from 'react-router-dom';
 import { URL } from '../../URL';
 
@@ -46,12 +46,52 @@ const SignUp  = ()=>{
     const [userFind  , setUserFind] = useState(false);
 
 
+    //post data in database
+    const postData_database = async(username , email , password  , profile , about)=>{
+        try{
+            // let UserFind_result = await fetch(`${URL}/userFind/${email}`);
+            let UserFind_result = await fetch(`http://localhost:4000/userFind/${email}`);
+            UserFind_result = await UserFind_result.json();
+            if(Object.keys(UserFind_result).length > 0){
+               setUserFind(true)
+            }else{
+               setUserFind(false);
+               //api call
+               try{
+                // let postUser_result = await fetch(`${URL}/register` , {
+                let postUser_result = await fetch(`http://localhost:4000/register` , {
+                    method : "post",
+                    body:JSON.stringify({username , email , password  , profile , about}),
+                    headers : {
+                        "Content-Type":"application/json",
+                    // "Accept":"application/json"
+                    }
+                });
+    
+                postUser_result =await postUser_result.json();
+                localStorage.setItem('userData' , JSON.stringify(postUser_result));
+                navigate('/Home')
+           }catch(error){
+            console.log(error);
+           }
+            }    
+        }catch(error){
+           console.log(error);
+        }
+       
+    }
+
    //google with signUp
    const onLoginSucces = (res)=>{
     const decode = jwt_decode(res.credential);
 
-    localStorage.setItem('userData' , JSON.stringify(decode));
-    navigate('/Home')
+    let username = decode.name;
+    let email = decode.email;
+    let password = decode.sub;
+    let profile = decode.picture;
+    let about = "Available"
+
+    postData_database(username , email , password , profile , about);
    }
    const onLoginError = ()=>{}
 
@@ -97,45 +137,15 @@ const SignUp  = ()=>{
             setNumberAlrt(true);
         }
 
+
+
      //post user ditil
-      if(username.length !== 0 && email.length !== 0 && password.length !== 0 && number.length !== 0){
-        if(!nameAlrt && !emailAlrt && !passwordAlrt && !numberAlrt){
-            console.log(clickCount)
+      if(username.length !== 0 && email.length !== 0 && password.length !== 0){
+        if(!nameAlrt && !emailAlrt && !passwordAlrt){
             if(clickCount >= 1){
-
-                //chacked user allredy register
-                try{
-                    // let UserFind_result = await fetch(`${URL}/userFind/${email}`);
-                    let UserFind_result = await fetch(`http://localhost:4000/userFind/${email}`);
-                    UserFind_result = await UserFind_result.json();
-                    if(Object.keys(UserFind_result).length > 0){
-                       setUserFind(true)
-                    }else{
-                       setUserFind(false);
-                       let profile = 'https://paresh2578.github.io/project-img/ChatAs/userimg/profile1.png';
-                       let about = "Available"
-                       //api call
-                       try{
-                            // let postUser_result = await fetch(`${URL}/register` , {
-                            let postUser_result = await fetch(`http://localhost:4000/register` , {
-                                method : "post",
-                                body:JSON.stringify({username , email , password , number , profile , about}),
-                                headers : {
-                                    "Content-Type":"application/json",
-                                "Accept":"application/json"
-                                }
-                            });
-                            postUser_result =await postUser_result.json();
-                            localStorage.setItem('userData' , JSON.stringify(postUser_result));
-                            navigate('/Home')
-                       }catch(error){
-                        console.log(error);
-                       }
-                    }    
-                }catch(error){
-                   console.log(error);
-                }
-
+                let profile = 'https://paresh2578.github.io/project-img/ChatAs/userimg/profile1.png';
+               let about = "Available"
+                postData_database(username , email , password , profile , about);
                 clickCount = 0;
             }
             clickCount++;
@@ -174,24 +184,16 @@ const SignUp  = ()=>{
                 {
                     passwordAlrt && <AlrtBox>* password  length greter than 8 to 15 </AlrtBox>
                 }
-                <Box className="row">
-                  <i className="fas fa-phone"></i>
-                    <input type="Number" placeholder="Mobile number" value={number} onChange={(e)=>{(setNumber(e.target.value))}} required/>
-                </Box>
-                 {
-                    numberAlrt && <AlrtBox>* number length is 10 </AlrtBox>
-                }
-                 
                 <Box className="row button">
                     <input type="button" value="Sign up" onClick={handleSignUp}/>
                 </Box>
-                <Box style={{justifyContent:'center' , paddingLeft:'10%'}}>
+                {/* <Box style={{justifyContent:'center' , paddingLeft:'10%'}}>
                        <GoogleLogin 
                             onSuccess={onLoginSucces}
                               onError={onLoginError}
                               
                        />
-                </Box>
+                </Box> */}
                 <Box className="signup-link" style={{ color : 'black' }}>Alredy account ? <Link to={'/logIn'}>Login now</Link></Box>
                 </form>
             </Box>

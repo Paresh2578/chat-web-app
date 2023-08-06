@@ -40,7 +40,6 @@ const Time_style = styled(Typography)(({theme})=>({
     fontSize:'12px',
     marginTop:'auto',
     color:'#f2f2f2',
-    // marginTop:'17px',
     wordBreak:'keep-all',
 }))
 

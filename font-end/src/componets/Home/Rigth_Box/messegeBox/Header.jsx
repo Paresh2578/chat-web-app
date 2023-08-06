@@ -58,7 +58,7 @@ export default function Header({msg_user_informaton , setMassege, conversation_I
                     </IconButton>
             </Box>
             <Profile_box style={{padding:'5px 5px 0px 0px'}}>
-                <img src={msg_user_informaton.profile} alt='logo' style={{heigth:'50px' , width : '50px'}}/>
+                <img src={msg_user_informaton.profile} alt='logo' style={{heigth:'50px' , width : '50px'  ,  borderRadius : '50%'}}/>
             </Profile_box>
             <Box>
                 {/* <Box> */}

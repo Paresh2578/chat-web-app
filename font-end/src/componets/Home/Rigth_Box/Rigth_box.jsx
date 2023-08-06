@@ -19,30 +19,9 @@ const Main_Box =styled(Box)(({theme})=>({
 export default function Rigth_box() {
   //redux
  const msg_user_info = useSelector(state=>state.msg_userInfo);
-//  const messegeges = useSelector(state=>state.messegeges);
-//  const dispatch = useDispatch();
-//  const {Messeges} = bindActionCreators(msg_user_info , dispatch)
 
-//  const[messeges , setMesseges] = useState([])
-
-//  console.log(messegeges)
-
-//  useEffect(()=>{
-//   const get_allMsg = async()=>{
-//     try{
-//       let result = await fetch(`http://localhost:4000/messeges/get_all_messeges`);
-//        result = await result.json();
-//        Messeges(result)
-//     }catch(error){
-//       console.log("get all msg  api error :" + error);
-//     }
-//   }
-//       get_allMsg();
-//  },[])
 
   return (
-
-
 
     <Main_Box >
        {

@@ -42,7 +42,6 @@ export default function Message_Content_Box({msg_user_informaton  , massege}) {
 
       massege && massege.map((msg , index)=>(
          <Box ref={scrollRef} key={index}>
-            {/* <Typography>{text}</Typography> */}
             <Display_chat msg={msg} auth={auth} />
          </Box>
       ))

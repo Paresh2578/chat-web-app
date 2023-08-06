@@ -64,14 +64,6 @@ const Profile_name = styled(Box)(({theme})=>({
 const Profile_change = styled(Box)(({theme})=>({
     // background:'red'
 }))
-const Profile_change_icon = styled(AddIcon)(({theme})=>({
-    color:'#ffff',
-    display:'flex',
-    marginTop:'100px',
-    marginLeft:'-30px',
-    borderRadius:'50%',
-    backgroundColor:'green',
-}))
 
 const DrowerStyle = {
     width:'350px',
@@ -90,7 +82,7 @@ const Edting_about = styled(Box)(({theme})=>({
    marginLeft:'auto'
 }))
 
-export default function Profile() {
+export default function Profile({open ,  setOpen}) {
   //redux
    const userdate = useSelector(state=> state.Auth)
    let dispatch = useDispatch();
@@ -99,7 +91,7 @@ export default function Profile() {
    //userdate
    let auth = JSON.parse(localStorage.getItem('userData'));
 
-    const [open , setOpen] = useState(false);
+  
     const [username , setUsername] = useState(auth.username);
     const [name_disabled , setName_disabled] = useState(true);
     const [name_editing_display , setName_editing_display] = useState(false);
@@ -142,8 +134,6 @@ export default function Profile() {
     reader.onerror= (error)=>{
       console.log("profile change error : " + error);
     }
-
-    
     
   }
 
@@ -238,10 +228,9 @@ export default function Profile() {
                  </Profile_header>
                  <Box>
                   <Profile_img>
-                      <img src={auth.profile}/>
                       <Profile_change >
                           <label htmlFor='fileinput'>
-                                <Profile_change_icon/>
+                            <img src={auth.profile}/>
                           </label>
                       </Profile_change> 
                       <input type='file'  id='fileinput' style={{display:'none'}} onChange={handle_profilechange}/>
