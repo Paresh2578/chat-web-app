@@ -9,8 +9,6 @@ import Login from './componets/Account/registrationForm/Login'
 import SignUp from './componets/Account/registrationForm/SignUp'
 import Forget_password from './componets/Account/registrationForm/Forget_password'
 import Home from './componets/Home/Home';
-import Profile from './componets/Home/Left_box/Profile';
-
 
 //mui
 import { Box } from '@mui/material'

@@ -21,7 +21,7 @@ import { Box , Divider, styled} from '@mui/material'
 //css
 const Main_Box = styled(Box)(({theme})=>({
     background:'#ffff',
-    heigth:'200vh',
+    // heigth:'10vh',
     overflowY:'scroll',
 }))
 

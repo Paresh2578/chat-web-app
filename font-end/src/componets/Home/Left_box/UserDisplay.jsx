@@ -19,11 +19,14 @@ import {Box , styled, List , ListItem, Divider, Typography, ListItemButton} from
 
 //css
 const Main_box = styled(List)(({theme})=>({
-  overflow: 'overlay',
-  height: '88vh',
+  overflowY: 'scroll',
+  height: '83vh',
   "::-webkit-scrollbar"  : {
     display: "none"
-}
+  } , 
+  "@media (max-width:400px) ":{
+    height:'85vh'
+  }
 }))
 
 const Imgs = styled('img')({

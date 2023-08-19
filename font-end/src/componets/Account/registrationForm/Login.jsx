@@ -4,8 +4,12 @@ import {Link , useNavigate} from 'react-router-dom'
 import {URL} from '../../URL'
 
 
+//google sign
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode'
+
 //mui
-import { Typography , styled  ,Alert} from '@mui/material';
+import { Typography , styled  ,Alert , Box} from '@mui/material';
 
 //css
 const AlrtBox = styled(Typography)(({theme})=>({
@@ -32,6 +36,43 @@ const Login = ()=>{
     const [passwordAlrt , setPasswordAlrt] = useState(false)
     const [chackUser , setChackUser] = useState(false);
 
+    //verify user
+    const varifyUser = async(email, password)=>{
+        try{
+            let result = await fetch(`${URL}/login/${email}/${password}`)
+            result = await result.json();
+        
+        if(Object.keys(result).length !== 0){
+            localStorage.setItem('userData' , JSON.stringify(result[0]));
+            setChackUser(false);
+            navigate('/Home')
+        }else{
+            setChackUser(true);
+        }
+       }catch(error){
+        console.log(error);
+       }
+    }
+
+
+     //google with signUp
+   const onLoginSucces = (res)=>{
+    const decode = jwt_decode(res.credential);
+
+    console.log(decode)
+
+    let email = decode.email;
+    let password = decode.sub;
+
+    let newPassword = "";
+    for(let i=0;i<password.length;i++){
+        newPassword += String.fromCharCode((password.charCodeAt(i) + 5));
+     }
+
+    varifyUser(email , newPassword);
+   }
+   const onLoginError = ()=>{}
+
     //handle login function
     let clickCount = 0;
     const handleLogin = async()=>{
@@ -55,21 +96,14 @@ const Login = ()=>{
         //get user
         if( email.length !== 0 && password.length !== 0){
                 if(clickCount > 0){
-                    //call api
-                   try{
-                        let result = await fetch(`${URL}/login/${email}/${password}`)
-                        result = await result.json();
-                    
-                    if(Object.keys(result).length !== 0){
-                        localStorage.setItem('userData' , JSON.stringify(result[0]));
-                        setChackUser(false);
-                        navigate('/Home')
-                    }else{
-                        setChackUser(true);
-                    }
-                   }catch(error){
-                    console.log(error);
-                   }
+                    //password change
+                    let newPassword = "";
+                    for(let i=0;i<password.length;i++){
+                        newPassword += String.fromCharCode((password.charCodeAt(i) + 5));
+                     }
+
+                     //call api
+                    varifyUser(email , newPassword);
                    clickCount = 0;
                 }
                 clickCount++;
@@ -105,6 +139,15 @@ const Login = ()=>{
                 <div className="row button">
                     <input type="button" value="Login" onClick={handleLogin}/>
                 </div>
+
+                <Box style={{justifyContent:'center' , paddingLeft:'10%'}}>
+                       <GoogleLogin 
+                            onSuccess={onLoginSucces}
+                              onError={onLoginError}
+                              
+                       />
+                </Box>
+
                 <div className="signup-link" style={{ color : 'black' }}>Not a member? <Link to={'/SignUp'}>Signup now</Link></div>
                 </form>
             </div>

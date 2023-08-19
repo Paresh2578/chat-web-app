@@ -29,6 +29,7 @@ const Rigth_side = styled(Box)(({theme})=>({
   marginLeft:'auto',
   display:'flex',
   alignItems:'center',
+ justifyContent:'center'   
   // padding:'8px 0px'
 }))
 
@@ -37,6 +38,7 @@ const Messeger_name = styled(Typography)(({theme})=>{
 })
 
 const Profile_box  = styled(Box)(({theme})=>({
+  padding:'0px 5px 0px 2px',
  "@media (max-width:320px)" : {
   marginLeft:'-5px'
  }
@@ -52,12 +54,12 @@ export default function Header({msg_user_informaton , setMassege, conversation_I
   return (
     <Main_Box>
        <Left_Side>
-            <Box>
+            <Box  style={{display:'flex' ,  justifyContent:'center'  , alignItems:'center'}}>
                     <IconButton size='small' onClick={()=> {setUser_disply_box_width('block') ; setUser_messgeBox_width('none')}}>
                         <KeyboardBackspaceIcon />
                     </IconButton>
             </Box>
-            <Profile_box style={{padding:'5px 5px 0px 0px'}}>
+            <Profile_box  style={{display:'flex' ,  justifyContent:'center'  , alignItems:'center'}}>
                 <img src={msg_user_informaton.profile} alt='logo' style={{heigth:'50px' , width : '50px'  ,  borderRadius : '50%'}}/>
             </Profile_box>
             <Box>

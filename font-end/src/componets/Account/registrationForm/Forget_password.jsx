@@ -75,11 +75,22 @@ const  Forget_password = ()=>{
                     let UserFind_result = await fetch(`${URL}/userFind/${email}`);
                     UserFind_result = await UserFind_result.json();
                     if(Object.keys(UserFind_result).length > 0){
-                        
+
+                        //password change
+                        let newPassword = "";
+                        for(let i=0;i<password.length;i++){
+                            console.log("entri is password");
+                             newPassword += String.fromCharCode((password.charCodeAt(i) + 5));
+                        }
+
+                        console.log("old password : " + password + "newpassword : " + newPassword);
+
+                        setPassword(newPassword);
+                       console.log("change password ser : " + password);
                         //password update
                         let passWordUpdate_result = await fetch(`${URL}/forgerPassword/${email}`,{
                             method : "put",
-                            body : JSON.stringify({password}),
+                            body : JSON.stringify({newPassword}),
                             headers : {
                                 "Content-Type": "application/json"
                             }

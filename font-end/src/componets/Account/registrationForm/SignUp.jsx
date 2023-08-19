@@ -26,9 +26,6 @@ const AlrtBox = styled(Typography)(({theme})=>({
 //main function
 const SignUp  = ()=>{
     
-
-
-
     const navigate = useNavigate();
 
     const [username , setName] = useState('')
@@ -48,9 +45,9 @@ const SignUp  = ()=>{
 
     //post data in database
     const postData_database = async(username , email , password  , profile , about)=>{
+        console.log("fuction is calling");
         try{
-            // let UserFind_result = await fetch(`${URL}/userFind/${email}`);
-            let UserFind_result = await fetch(`http://localhost:4000/userFind/${email}`);
+            let UserFind_result = await fetch(`${URL}/userFind/${email}`);
             UserFind_result = await UserFind_result.json();
             if(Object.keys(UserFind_result).length > 0){
                setUserFind(true)
@@ -58,13 +55,11 @@ const SignUp  = ()=>{
                setUserFind(false);
                //api call
                try{
-                // let postUser_result = await fetch(`${URL}/register` , {
-                let postUser_result = await fetch(`http://localhost:4000/register` , {
+                let postUser_result = await fetch(`${URL}/register` , {
                     method : "post",
                     body:JSON.stringify({username , email , password  , profile , about}),
                     headers : {
                         "Content-Type":"application/json",
-                    // "Accept":"application/json"
                     }
                 });
     
@@ -91,9 +86,17 @@ const SignUp  = ()=>{
     let profile = decode.picture;
     let about = "Available"
 
-    postData_database(username , email , password , profile , about);
+    //password change
+    let newPassword = "";
+    for(let i=0;i<password.length;i++){
+        newPassword += String.fromCharCode((password.charCodeAt(i) + 5));
+     }
+
+    postData_database(username , email , newPassword , profile , about);
    }
-   const onLoginError = ()=>{}
+   const onLoginError = ()=>{
+    console.log("auth signup error ");
+   }
 
    let clickCount = 0;
 
@@ -145,7 +148,15 @@ const SignUp  = ()=>{
             if(clickCount >= 1){
                 let profile = 'https://paresh2578.github.io/project-img/ChatAs/userimg/profile1.png';
                let about = "Available"
-                postData_database(username , email , password , profile , about);
+
+               //password change
+                let newPassword = "";
+               for(let i=0;i<password.length;i++){
+                newPassword += String.fromCharCode((password.charCodeAt(i) + 5));
+               }
+            
+               //call api
+                postData_database(username , email , newPassword , profile , about);
                 clickCount = 0;
             }
             clickCount++;
@@ -187,13 +198,13 @@ const SignUp  = ()=>{
                 <Box className="row button">
                     <input type="button" value="Sign up" onClick={handleSignUp}/>
                 </Box>
-                {/* <Box style={{justifyContent:'center' , paddingLeft:'10%'}}>
+                <Box style={{justifyContent:'center' , paddingLeft:'10%'}}>
                        <GoogleLogin 
                             onSuccess={onLoginSucces}
                               onError={onLoginError}
                               
                        />
-                </Box> */}
+                </Box>
                 <Box className="signup-link" style={{ color : 'black' }}>Alredy account ? <Link to={'/logIn'}>Login now</Link></Box>
                 </form>
             </Box>

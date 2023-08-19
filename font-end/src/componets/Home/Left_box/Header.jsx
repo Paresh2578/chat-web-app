@@ -13,15 +13,19 @@ import {Box , IconButton, styled} from '@mui/material'
 //css
 const Main_Box = styled(Box)(({theme})=>({
     display: 'flex',
-    padding : '5px 10px',
+    height:'9vh',
     background: 'rgb(238,174,202)',
    background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)',
-
+   "@media (max-width:400px) ":{
+    height:'7vh'
+}
 }))
 
 
 const Other_option = styled(Box)(({theme})=>({
     display: 'flex',
+    justifyContent:'center',
+    alignItems:'center',
     marginLeft :'auto',
 }))
 
@@ -31,7 +35,9 @@ export default function Header() {
 
   return (
     <Main_Box>
-       <Profile open = {open} setOpen={setOpen}/>
+       <Box style={{display:'flex' ,  justifyContent:'center'  , alignItems:'center'}}>
+           <Profile open = {open} setOpen={setOpen}/>
+        </Box>
        <Other_option>
            <Box>
                <Menubar setOpen={setOpen}/>

@@ -29,12 +29,12 @@ const Main_Box = styled(Box)(({theme})=>({
 
 const Profile_header = styled(Box)(({theme})=>({
     heigth : '40vh',
-    background: 'rgb(238,174,202)',
-    background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)',
-    padding : '20px 20px',
+    background: '#FE46A5',
+    // background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)',
+    padding : '20px 10px',
     display : 'flex',
      "p" : {
-        margin : '10px 20px 10px 10px',
+        // margin : '10px 20px 10px 10px',
         fontWeight : 'bold',
         color : "#FFFFF7",
         fontSize:'30px',
@@ -46,7 +46,8 @@ const Profile_img = styled(Box)(({theme})=>({
     heigth:'100px',
     display:'flex',
     justifyContent : 'center',
-    margin:'auto',
+    // alignItems:'center',
+    // margin:'auto',
     "img" : {
         borderRadius:'50%',
         heigth : '250px',
@@ -221,7 +222,7 @@ export default function Profile({open ,  setOpen}) {
             >
             <Profile_main_box>
                  <Profile_header >
-                   <IconButton style={{color:'#FFFF'}}>
+                   <IconButton style={{color:'#FFFF' , marginRight:'1vh'}}>
                      <KeyboardBackspaceIcon onClick={handleClose}/>
                    </IconButton>
                    <Typography>Profile</Typography>
