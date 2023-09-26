@@ -7,17 +7,19 @@ import {useSelector} from  'react-redux'
 import { Box } from '@mui/material';
 
 //componets
-import SignUp from './Account/registrationForm/SignUp'
+// import LogIn from './Account/registrationForm/Login'
 import Home from './Home/Home';
+import Authentication from './Authentication/Authentication';
+
 
 export default function Messenger() {
 
-   let auth = localStorage.getItem('userData');
+   let auth = localStorage.getItem('auth');
 
   return (
     <Box>
       {
-        auth ? <Home/> : <SignUp/>
+        auth ? <Home/> : <Authentication/>
       }
     </Box>
   )

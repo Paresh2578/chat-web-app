@@ -23,7 +23,7 @@ export default function Menubar({setOpen}) {
 
     //handle_LogOut
     const handle_LogOut = ()=>{
-         localStorage.clear('userData');
+         localStorage.clear('auth');
          navigate('/')
       handleClose();
     }
@@ -47,6 +47,7 @@ export default function Menubar({setOpen}) {
       >
         <MenuItem onClick={()=>{handleClose(); setOpen(true)}}>Profile</MenuItem>
         <MenuItem onClick={handle_LogOut}>Logout</MenuItem>
+        <MenuItem onClick={()=>navigate('/Developer_detail')}>Developed by</MenuItem>
       </Menu>
     </>
   )

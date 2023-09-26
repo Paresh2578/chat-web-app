@@ -1,0 +1,33 @@
+/* auth  */
+.Authentication_body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-image: url("https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=4000&q=80");
+    background-position: center;
+    background-size: cover;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    color: #fff;
+  }
+  
+  h1 {
+    margin-bottom: 3rem;
+  }
+  
+  .login-form {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 0.4rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    min-width: 260px;
+  }
+  
+  .login-input-container {
+    margin-top: 2rem;
+  }

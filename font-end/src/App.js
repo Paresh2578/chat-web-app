@@ -5,21 +5,21 @@ import { io } from 'socket.io-client';
 
 //componets
 import Messenger from './componets/Messenger'
-import Login from './componets/Account/registrationForm/Login'
-import SignUp from './componets/Account/registrationForm/SignUp'
-import Forget_password from './componets/Account/registrationForm/Forget_password'
 import Home from './componets/Home/Home';
+import Authentication from './componets/Authentication/Authentication';
+import Developer_detail from './componets/developer detail/Developer_detail'
 
 //mui
 import { Box } from '@mui/material'
 
 
-const socket = io.connect("http://localhost:5000")
+const socket = io.connect("https://chatappsocket-i.onrender.com")
+// const socket = io.connect("http://localhost:5000")
 const socket_context_api = createContext();
 const home_box_width_context = createContext();
 
  const   App = () => {
-    const clientId = '987191941010-oa6u188vj4v5hsp1plksjpvq99ho790b.apps.googleusercontent.com'
+    const clientId = '588531370011-bcfue6g9jhso48absmqq992f6hrgbqgj.apps.googleusercontent.com'
 
     const[active_user , setActive_user] = useState([])
     const [user_disply_box_width , setUser_disply_box_width] = useState('block');
@@ -39,10 +39,8 @@ const home_box_width_context = createContext();
                           <Routes>
                             <Route path='/' element={<Messenger/>}></Route>
                             <Route path='/Home' element={<Home/>}></Route>
-                            <Route path='/logIn' element={<Login/>}></Route>
-                            <Route path='/SignUp' element={<SignUp/>}></Route>
-                            {/* <Route path="/home/profile" element={<Profile/>}></Route> */}
-                            <Route path='/Forget_password' element={<Forget_password/>}></Route>
+                            <Route path='/Authentication' element={<Authentication/>}/>
+                            <Route path='/Developer_detail' element={<Developer_detail/>}/>
                           </Routes>
                       </Box>
                   </BrowserRouter>

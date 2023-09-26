@@ -2,13 +2,16 @@ import React from 'react'
 
 
 //backent url
-import { URL } from '../../../URL';
+import { URL } from '../../../../util/URL';
 
 //redux
 //redux
 import { useDispatch  , useSelector} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {msg_user_info} from '../../../../state/index'
+
+//constom function
+import {SweetAlrt} from '../../../../util/SweetAlrt'
 
 //mui
 import { Box , IconButton, styled } from '@mui/material'
@@ -39,6 +42,7 @@ export default function Menubar({setMassege ,conversation_ID}) {
        })
        result = await result.json();
     }catch(error){
+      SweetAlrt("delete msg" , "error");
       console.log("deleter api error from font : " + error);
     }
 

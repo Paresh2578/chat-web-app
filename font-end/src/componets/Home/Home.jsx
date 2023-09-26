@@ -69,7 +69,7 @@ export default function Home() {
   let dispatch = useDispatch();
   let {Auth} = bindActionCreators(msg_user_info , dispatch);
 
-  const auth = JSON.parse(localStorage.getItem('userData'));
+  const auth = JSON.parse(localStorage.getItem('auth'));
   useEffect(()=>{
     Auth(auth);
   },[])

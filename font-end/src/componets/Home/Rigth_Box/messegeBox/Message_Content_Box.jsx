@@ -1,7 +1,7 @@
 import React, { useEffect, useState , useRef } from 'react'
 
 // backend url
-import {URL} from '../../../URL'
+import {URL} from '../../../../util/URL'
 
 //componets
 import Display_chat from './Display_chat'
@@ -18,14 +18,14 @@ const Main_Box = styled(Box)(({theme})=>({
     display: "none"
    },
   backgroundImage: `url(${'https://paresh2578.github.io/project-img/ChatAs/userimg//chat_background.png'})`,
-  padding:'0px 20px'
-
+  padding:'0px 20px ',
+  paddingBottom:'6rem'
 }))
 
 
 export default function Message_Content_Box({msg_user_informaton  , massege}) {
   // msg_sender
-  let auth = JSON.parse(localStorage.getItem('userData'));
+  let auth = JSON.parse(localStorage.getItem('auth'));
 
   //use ref
   const scrollRef = useRef();
@@ -35,7 +35,7 @@ export default function Message_Content_Box({msg_user_informaton  , massege}) {
 
   
   return (
-    <Main_Box>
+    <Main_Box >
       {/* pares chaudhart */}
      {
       

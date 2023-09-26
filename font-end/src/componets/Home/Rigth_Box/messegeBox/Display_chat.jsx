@@ -47,7 +47,7 @@ export default function Display_chat({msg , auth}) {
   return (
     <Box>
         {
-           msg.sender_ID == auth.email ? 
+           msg.sender_ID == auth[0].email ? 
             <Sender_msg_style >
                 <Text>{msg.text}</Text>
                 <Time_style>{formetTime(msg.updatedAt)}</Time_style>

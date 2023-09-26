@@ -1,13 +1,16 @@
 import React, { useEffect , useState, useContext } from 'react'
 
 //URL
-import {URL} from '../../../URL'
+import {URL} from '../../../../util/URL'
 
 // socket  msg contex api
 import {socket_context_api} from '../../../../App'
 
 //redux
 import { useDispatch , useSelector  } from 'react-redux';
+
+//contom function
+import {SweetAlrt} from '../../../../util/SweetAlrt'
 
 //compones
 import Header from './Header';
@@ -29,7 +32,7 @@ export default function MassegeBox() {
 
 
     // msg_sender
-    let auth = JSON.parse(localStorage.getItem('userData'));
+    let auth = JSON.parse(localStorage.getItem('auth'));
 
    //messege
    const [massege , setMassege] = useState([]);
@@ -50,10 +53,11 @@ export default function MassegeBox() {
 
     const get_conversation = async()=>{
       try{
-        let result = await fetch(`${URL}/get_convarsation/${auth.email}/${msg_user_informaton.email}`)
+        let result = await fetch(`${URL}/get_convarsation/${auth[0].email}/${msg_user_informaton.email}`)
         result =await result.json();
         setMassege(result);
     }catch(error){
+      SweetAlrt("get convarstaion id " , "error");
       console.log("get convartion id api error : " + error)
     }
   }
@@ -62,10 +66,11 @@ export default function MassegeBox() {
     useEffect(()=>{
       const getconversationID = async()=>{
        try{
-             let result =await fetch(`${URL}/get_convarsation_id/${auth.email}/${msg_user_informaton.email}`);
+             let result =await fetch(`${URL}/get_convarsation_id/${auth[0].email}/${msg_user_informaton.email}`);
              result = await result.json();
              setConversation_ID(result._id);
          }catch(error){
+          SweetAlrt("get convarsation id" , "error");
            console.log("get convarsation id api error : " + error);
          }
     }

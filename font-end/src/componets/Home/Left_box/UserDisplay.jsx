@@ -3,12 +3,18 @@ import  {socket_context_api , home_box_width_context} from '../../../App'
 
 
 //url
-import {URL} from '../../URL'
+import {URL} from '../../../util/URL'
 
 //redux
 import { useDispatch  , useSelector} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {msg_user_info} from '../../../state/index'
+
+//compontes
+import Splinner from '../../Spinner/Splinner';
+
+//contom function
+import {SweetAlrt} from '../../../util/SweetAlrt'
 
 
 //time formet function
@@ -30,7 +36,7 @@ const Main_box = styled(List)(({theme})=>({
 }))
 
 const Imgs = styled('img')({
-    width : '50px',
+    width : '40px',
     margin:' 0 10px',
     // borderRedius:'50%',
     objectFit:'cover',
@@ -60,13 +66,14 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
   let {setUser_disply_box_width , setUser_messgeBox_width} = useContext(home_box_width_context)
 
     //auth
-    let auth = JSON.parse(localStorage.getItem('userData'));
+    let auth = JSON.parse(localStorage.getItem('auth'));
     
   // //  //redux
      const dispatch = useDispatch();
      const {User , Last_msg_convarsation} = bindActionCreators(msg_user_info , dispatch);
   
    const [user , setUser] = useState([]);
+   const [loder , setLoder] = useState(true);
 
   //get all user
    useEffect(()=>{
@@ -75,8 +82,11 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
           let result = await fetch(`${URL}/get_AllUser`)
           result =await result.json();
           result = result.filter(user => user.username.toLowerCase().includes(text.toLowerCase()))
+          result = result.filter(user => user.email != auth[0].email);
           setUser(result);
+          setLoder(false);
         }catch(error){
+          SweetAlrt("get all user" , "error");
             console.log(error);
         }
        }
@@ -90,7 +100,7 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
 
     //set converstion
     const set_convartioan = async ()=>{
-      let sender_email = auth.email;
+      let sender_email = auth[0].email;
       let receiver_email = data.email;
       let messege = "";
 
@@ -120,18 +130,19 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
 }
 
  useEffect(()=>{
-    socket.emit("addusers", auth);
+    socket.emit("addusers", auth[0]);
     socket.on("getUsers", user=>{
       setActive_user(user)
     })
- },[auth])
+ },[auth[0]])
    
 
   return (
       < >
        <Main_box>
           {
-            user.filter(i=>i.email != auth.email).map((data , index)=>(
+            !loder ?
+            user.filter(i=>i.email != auth[0].email).map((data , index)=>(
                 <Box key={index} onClick={()=> handle_Msg_user(data)}>
                         <ListItemButton style={{margin:'0px' , paddingLeft:'0px'}}>
                           <Imgs src={data.profile} alt='profile' />
@@ -143,16 +154,16 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
                                {
                       
                                   (convarstion_last_msg_redux.length != undefined && convarstion_last_msg_redux.length != 0) ? 
-                                      (convarstion_last_msg_redux.filter(user => user.member[0] === auth.email  && user.member[1]=== data.email)[0]  != undefined) ?
-                                          convarstion_last_msg_redux.filter(user => user.member[0] === auth.email  && user.member[1]=== data.email)[0].messege.length <15 ? 
-                                            convarstion_last_msg_redux.filter(user => user.member[0] === auth.email  && user.member[1]=== data.email)[0].messege :
-                                            convarstion_last_msg_redux.filter(user => user.member[0] === auth.email  && user.member[1]=== data.email)[0].messege.substring(0,14)+ "...."
+                                      (convarstion_last_msg_redux.filter(user => user.member[0] === auth[0].email  && user.member[1]=== data.email)[0]  != undefined) ?
+                                          convarstion_last_msg_redux.filter(user => user.member[0] === auth[0].email  && user.member[1]=== data.email)[0].messege.length <15 ? 
+                                            convarstion_last_msg_redux.filter(user => user.member[0] === auth[0].email  && user.member[1]=== data.email)[0].messege :
+                                            convarstion_last_msg_redux.filter(user => user.member[0] === auth[0].email  && user.member[1]=== data.email)[0].messege.substring(0,14)+ "...."
                                           :
                                           
-                                      convarstion_last_msg_redux.filter(user => user.member[1] === auth.email  && user.member[0]=== data.email)[0]  != undefined ?
-                                          convarstion_last_msg_redux.filter(user => user.member[1] === auth.email  && user.member[0]=== data.email)[0].messege.length < 15 ? 
-                                             convarstion_last_msg_redux.filter(user => user.member[1] === auth.email  && user.member[0]=== data.email)[0].messege : 
-                                             convarstion_last_msg_redux.filter(user => user.member[1] === auth.email  && user.member[0]=== data.email)[0].messege.substring(0,14)+ "...."
+                                      convarstion_last_msg_redux.filter(user => user.member[1] === auth[0].email  && user.member[0]=== data.email)[0]  != undefined ?
+                                          convarstion_last_msg_redux.filter(user => user.member[1] === auth[0].email  && user.member[0]=== data.email)[0].messege.length < 15 ? 
+                                             convarstion_last_msg_redux.filter(user => user.member[1] === auth[0].email  && user.member[0]=== data.email)[0].messege : 
+                                             convarstion_last_msg_redux.filter(user => user.member[1] === auth[0].email  && user.member[0]=== data.email)[0].messege.substring(0,14)+ "...."
                                           : " "
                                      : " "     
                                }  
@@ -163,11 +174,11 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
                              {
                       
                                   (convarstion_last_msg_redux.length != undefined && convarstion_last_msg_redux.length != 0) ? 
-                                      (convarstion_last_msg_redux.filter(user => user.member[0] === auth.email  && user.member[1]=== data.email)[0]  != undefined) ?
-                                         formetTime(convarstion_last_msg_redux.filter(user => user.member[0] === auth.email  && user.member[1]=== data.email)[0].updatedAt) :
+                                      (convarstion_last_msg_redux.filter(user => user.member[0] === auth[0].email  && user.member[1]=== data.email)[0]  != undefined) ?
+                                         formetTime(convarstion_last_msg_redux.filter(user => user.member[0] === auth[0].email  && user.member[1]=== data.email)[0].updatedAt) :
                                           
-                                      convarstion_last_msg_redux.filter(user => user.member[1] === auth.email  && user.member[0]=== data.email)[0]  != undefined ?
-                                           formetTime(convarstion_last_msg_redux.filter(user => user.member[1] === auth.email  && user.member[0]=== data.email)[0].updatedAt)
+                                      convarstion_last_msg_redux.filter(user => user.member[1] === auth[0].email  && user.member[0]=== data.email)[0]  != undefined ?
+                                           formetTime(convarstion_last_msg_redux.filter(user => user.member[1] === auth[0].email  && user.member[0]=== data.email)[0].updatedAt)
                                           : " "
                                     : " "     
                               } 
@@ -178,6 +189,7 @@ export default function UserDisplay({text , convarstion_last_msg_redux}) {
                 </Box>
                
             ))
+            : <Splinner/>
           }
          
        </Main_box>

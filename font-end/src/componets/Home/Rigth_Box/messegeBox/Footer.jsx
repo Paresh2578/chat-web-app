@@ -1,7 +1,7 @@
 import React, { useEffect, useState  , useContext} from 'react'
 
 // backend URL
-import {URL} from '../../../URL'
+import {URL} from '../../../../util/URL'
 
 //redux
 import { useDispatch  , useSelector} from 'react-redux';
@@ -10,6 +10,9 @@ import {msg_user_info} from '../../../../state/index'
 
 //context api
 import {socket_context_api} from '../../../../App'
+
+//comstom function
+import {SweetAlrt} from '../../../../util/SweetAlrt'
 
 //mui
 import { Box , IconButton, InputBase, styled  } from '@mui/material'
@@ -97,7 +100,7 @@ export default function Footer({msg_user_informaton , get_conversation,conversat
   const {User , Last_msg_convarsatio} = bindActionCreators(msg_user_info , dispatch);
 
   // msg_sender
- let auth = JSON.parse(localStorage.getItem('userData'));
+ let auth = JSON.parse(localStorage.getItem('auth'));
 
 
  //handle onchange input
@@ -114,7 +117,6 @@ export default function Footer({msg_user_informaton , get_conversation,conversat
         let formData = new FormData();
         formData.append("file1","file4");
 
-        console.log(formData);
           try{
               let result = await fetch(`${URL}/file/upload`, {
                 method:'post',
@@ -125,6 +127,7 @@ export default function Footer({msg_user_informaton , get_conversation,conversat
                 }
               })
           }catch(error){
+            SweetAlrt("file upload " , "error");
             console.log("upload file api error : " + error);
           }
 
@@ -136,7 +139,7 @@ export default function Footer({msg_user_informaton , get_conversation,conversat
   //send msg information 
    const msg = {
       conversation_ID:conversation_ID,
-      sender_ID : auth.email,
+      sender_ID : auth[0].email,
       receiver_ID : msg_user_informaton.email,
       text : text,
       type:'text'
@@ -161,15 +164,17 @@ export default function Footer({msg_user_informaton , get_conversation,conversat
         }
       })
     }catch(error){
+      SweetAlrt("change conversation" , "error");
        console.log("changer msg put api error : " + error);
     }
  
       //convarsaion  last msg
       try{
-            let result = await fetch('http://localhost:4000/convarsation/get_all_convarsation');
+            let result = await fetch(`${URL}/convarsation/get_all_convarsation`);
             result = await result.json();
             Last_msg_convarsatio(result)
         }catch(error){
+          SweetAlrt("get all convarsation" , "error");
           console.log("get all convarstion api error : " + error);
         }
       
@@ -188,6 +193,7 @@ export default function Footer({msg_user_informaton , get_conversation,conversat
 
         result = await result.json() ;
      }catch(error){
+      SweetAlrt("send msg" , "error");
       console.log("send msg api error : " + error)
      }
     setText('')

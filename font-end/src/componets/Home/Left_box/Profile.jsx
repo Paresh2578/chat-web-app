@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 
 //backend databse connect url
-import {URL} from '../../URL'
+import {URL} from '../../../util/URL'
 
 //redux
 import { useSelector , useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { msg_user_info } from '../../../state';
+
+//constom function
+import {SweetAlrt} from '../../../util/SweetAlrt'
 
 ///mui
 import { Box , styled , IconButton , Drawer, Typography , InputBase} from '@mui/material'
@@ -90,13 +93,13 @@ export default function Profile({open ,  setOpen}) {
    let {Auth} = bindActionCreators(msg_user_info , dispatch);
 
    //userdate
-   let auth = JSON.parse(localStorage.getItem('userData'));
+   let auth = JSON.parse(localStorage.getItem('auth'));
 
   
-    const [username , setUsername] = useState(auth.username);
+    const [username , setUsername] = useState(auth[0].username);
     const [name_disabled , setName_disabled] = useState(true);
     const [name_editing_display , setName_editing_display] = useState(false);
-    const [about , setabout] = useState(auth.about);
+    const [about , setabout] = useState(auth[0].about);
     const [about_disabled , setAbout_disabled] = useState(true);
     const [about_editing_display , setAbout_editing_display] = useState(false);
 
@@ -110,16 +113,16 @@ export default function Profile({open ,  setOpen}) {
     let reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload= async ()=>{
-      // console.log(reader.result);
       let profile = reader.result;
 
-      let auth_after_date = auth;
+      let auth_after_date = auth[0];
       auth_after_date = {...auth_after_date , profile};
       Auth(auth_after_date);
-      localStorage.setItem('userData' , JSON.stringify(auth_after_date));
+      
+      localStorage.setItem('auth' , JSON.stringify(auth_after_date));
 
       try{
-          let result = await fetch(`${URL}/use/name/nameUpdate/${auth.email}` , {
+          let result = await fetch(`${URL}/use/name/nameUpdate/${auth[0].email}` , {
             method : 'put',
             body : JSON.stringify({profile}),
             headers : {
@@ -128,11 +131,13 @@ export default function Profile({open ,  setOpen}) {
           })
           result = await result.json();
       }catch(error){
+        SweetAlrt("name update" ,"error");
         console.log("chanGe profil api error : " + error);
       }
 
     }
     reader.onerror= (error)=>{
+      SweetAlrt("profile change " , "error");
       console.log("profile change error : " + error);
     }
     
@@ -154,14 +159,14 @@ export default function Profile({open ,  setOpen}) {
       setName_disabled(true)
       setName_editing_display(false)
 
-      let auth_after_date = auth;
+      let auth_after_date = auth[0];
       auth_after_date = {...auth_after_date , username};
       Auth(auth_after_date);
-      localStorage.setItem('userData' , JSON.stringify(auth_after_date));
+      localStorage.setItem('auth' , JSON.stringify(auth_after_date));
 
 
       try{ 
-      let result = await fetch(`${URL}/use/name/nameUpdate/${auth.email}` , {
+      let result = await fetch(`${URL}/use/name/nameUpdate/${auth[0].email}` , {
         method : 'Put',
         body : JSON.stringify({username}),
         headers : {
@@ -170,6 +175,7 @@ export default function Profile({open ,  setOpen}) {
       })
        result = await result.json();
       }catch(error){
+        SweetAlrt("name update" , "error");
         console.log("user name upadte api error : " + error);
       }
     }
@@ -188,7 +194,7 @@ export default function Profile({open ,  setOpen}) {
       setAbout_editing_display(false);
 
       try{ 
-        let result = await fetch(`${URL}/use/name/nameUpdate/${auth.email}` , {
+        let result = await fetch(`${URL}/use/name/nameUpdate/${auth[0].email}` , {
           method : 'Put',
           body : JSON.stringify({about}),
           headers : {
@@ -197,13 +203,14 @@ export default function Profile({open ,  setOpen}) {
         })
          result = await result.json();
         }catch(error){
+          SweetAlrt("name update" , "error");
           console.log("user name upadte api error : " + error);
         }
 
-        let auth_after_date = auth;
+        let auth_after_date = auth[0];
         auth_after_date = {...auth_after_date , about};
         Auth(auth_after_date);
-        localStorage.setItem('userData' , JSON.stringify(auth_after_date));
+        localStorage.setItem('auth' , JSON.stringify(auth_after_date));
     }
 
 
@@ -212,7 +219,7 @@ export default function Profile({open ,  setOpen}) {
   return (
     <Main_Box>
         <IconButton onClick={()=>setOpen(true)}>
-           <img src={auth.profile} alt='logo'/>
+           <img src={auth[0].profile} alt='logo'/>
          </IconButton>
          <Drawer
             open={open}
@@ -231,7 +238,7 @@ export default function Profile({open ,  setOpen}) {
                   <Profile_img>
                       <Profile_change >
                           <label htmlFor='fileinput'>
-                            <img src={auth.profile}/>
+                            <img src={auth[0].profile}/>
                           </label>
                       </Profile_change> 
                       <input type='file'  id='fileinput' style={{display:'none'}} onChange={handle_profilechange}/>

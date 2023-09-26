@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 //URL
-import {URL} from '../../URL'
+import {URL} from '../../../util/URL'
 
 //componets
 import Header from './Header'
@@ -13,6 +13,9 @@ import UserDisplay from './UserDisplay'
 import { useDispatch  , useSelector} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {msg_user_info} from '../../../state/index'
+
+//contom function
+import {SweetAlrt} from '../../../util/SweetAlrt'
 
 
 //mui
@@ -43,6 +46,7 @@ export default function Left_box() {
             result = await result.json();
             Last_msg_convarsatio(result)
         }catch(error){
+          SweetAlrt("get all convarsation" , "error");
           console.log("get all last msg api error : " + error);
         }
        }
